@@ -62,20 +62,3 @@ generateDynamicFile()
 
 
 
-
-
-
-
-
-
-
-
-
-// let date = new Date()
-// if(err) throw err
-// let md = fm(data)
-// // console.log(date)
-// md.body = `This content was edited at ${date}`
-// console.log(md.attributes)
-// Object.assign(md.attributes, { editedAt: date})
-// console.log(md)

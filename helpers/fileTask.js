@@ -11,7 +11,7 @@ const updateContent = (content, matter) => {
 const createContent = (content, matter) => {
     let date = new Date()
     Object.assign(matter, { createdAt: date })
-    const createdContent = `This body is edited.This markdown content is created at timestamp ${date.getTime()}`
+    const createdContent = `This markdown file is edited.This markdown content is created at timestamp ${date.getTime()}`
     content = content+"\n"+createdContent
     return `---\n${stringify(matter)}---\n${content}`
 }
