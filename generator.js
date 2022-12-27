@@ -10,24 +10,22 @@ const contentPath = "/Desktop/hugo-project/content"
 const dataSource = path.join(os.homedir(), templatesPath )
 const contentSource = path.join(os.homedir(), contentPath )
 
-//Modifying the frontmatter and body of a markdown file
+//Update the front matter,body and write it to hugo content
 const updateMarkdownFile = async(dataSource, file) => {
         const data = await readFile(path.join(dataSource, file), {encoding: "utf-8"})
         let { content, data: matter } = frontMatter(data)
         let updatedContent = updateContent(content, matter)
       
-        //update at templates folder
         await writeFile(path.join(dataSource, file), updatedContent)
         .then(() => console.log(`${file} updated successfully`))
         .catch(() => console.log("error in updating the file"))
 
-        //write file to content folder
         await writeFile(path.join(contentSource, file), updatedContent)
         .then(() => console.log(`${file} created successfully to content folder`))
         .catch(() => console.log("error in writing the file to content folder"))
 }
 
-//Getting all the markdown files under templates
+//Read all markdown files from hugo templates
 const markdownFiles = async() => {
     const data = await readdir(dataSource, {withFileTypes: true})
     let files = data.map(file => file.isFile() && file.name.endsWith(".md") && file.name)
@@ -35,15 +33,16 @@ const markdownFiles = async() => {
 }
 
 markdownFiles()
- 
+
+//Create a new markdown file from json api and write it to hugo content
 const generateDynamicFile = async() => {
-    const response = await axios.get("https://mocki.io/v1/e218ea88-d34d-4630-8480-7af0588afdfd")
+    const response = await axios.get("http://localhost:4000/markdown-data")
     const { body, frontmatter } = response.data
     let file = frontmatter.title.split(" ").join("-")+".md"
     const markdownContent = createContent(body, frontmatter)
     await writeFile(path.join(dataSource, file), markdownContent)
     .then(() => {
-      console.log(`${file} created successfully to content folder`)
+      console.log(`${file} created successfully to template folder`)
     })
     .catch(() => {
         console.log("error in creating the file")
