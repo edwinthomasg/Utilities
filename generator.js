@@ -10,7 +10,7 @@ const contentPath = "/Desktop/hugo-project/content"
 const dataSource = path.join(os.homedir(), templatesPath )
 const contentSource = path.join(os.homedir(), contentPath )
 
-//Update the front matter,body and write it to hugo content
+// UPDATE FRONT-MATTER, BODY FROM TEMPLATES AND WRITE IT TO HUGO CONTENT
 const updateMarkdownFile = async(dataSource, file) => {
         const data = await readFile(path.join(dataSource, file), {encoding: "utf-8"})
         let { content, data: matter } = frontMatter(data)
@@ -25,7 +25,7 @@ const updateMarkdownFile = async(dataSource, file) => {
         .catch(() => console.log("error in writing the file to content folder"))
 }
 
-//Read all markdown files from hugo templates
+// READ ALL MARKDOWN FILES FROM TEMPLATES
 const markdownFiles = async() => {
     const data = await readdir(dataSource, {withFileTypes: true})
     let files = data.map(file => file.isFile() && file.name.endsWith(".md") && file.name)
@@ -34,7 +34,7 @@ const markdownFiles = async() => {
 
 markdownFiles()
 
-//Create a new markdown file from json api and write it to hugo content
+// CREATE NEW MARKDOWN FILE FROM JSON API AND WRITE IT TO HUGO CONTENT
 const generateDynamicFile = async() => {
     const response = await axios.get("http://localhost:4000/markdown-data")
     const { body, frontmatter } = response.data
